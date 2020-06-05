@@ -1,0 +1,97 @@
+<h1 class="mt-4 text-center">GESTOR DE MENU</h1>
+<hr>
+<div class="my-2 d-flex justify-content-end">
+  <input class="form-control mr-auto p-2 w-50" type="search" name="filtroMenu" placeholder="Buscar" aria-label="Search" [(ngModel)]="filtroMenu">
+ <app-addmenu></app-addmenu>
+</div>
+<table class="table table-hover">
+  <thead class="bg-primary text-white">
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Titulo</th>
+      <th scope="col">imagen</th>
+      <th scope="col">Hot</th>
+      <th scope="col">Estado</th>
+      <th scope="col"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <div class="d-flex justify-content-center text-primary" *ngIf="cargar; else elseBlock">
+      Cargando...
+    </div>
+  <ng-template #elseBlock>
+    <tr *ngFor="let menu of menus |  filter:filtroMenu | paginate: paginationConfig">
+      <th scope="row">{{menu.menId}}</th>
+      <td>{{menu.menTitulo}}</td>
+      <td>{{menu.imagen}}</td>
+      <td>{{menu.menIsHot}}</td>
+      <td>{{menu.menEstado}}</td>
+      <td>
+        <a href="#" class="btn btn-outline-primary mr-2"  [routerLink]="['/editmenu/', menu.menId]" ><i class="fas fa-edit"></i></a>
+        <a href="#" *ngIf="menu.menIsHot" class="btn btn-outline-primary"  [routerLink]="['/imagen/', menu.menTitulo]" ><i class="fas fa-image"></i></a>
+      </td>
+    </tr>  
+  </ng-template>
+  </tbody> 
+</table>
+<div class="col-12 mt-3 d-flex justify-content-center">
+  <pagination-template
+    #p="paginationApi"
+    [id]="paginationConfig.id"
+    [maxSize]="maxSizePagination"
+    autoHide="true"
+    (pageChange)="paginationConfig.currentPage = $event"
+  >
+    <nav aria-label="Page navigation example">
+      <ul class="pagination">
+        <li
+          [className]="p.isFirstPage() ? 'page-item disabled' : 'page-item'"
+        >
+          <a
+            class="page-link"
+            (click)="p.previous()"
+            href="javascript:void(0);"
+            aria-label="Previous"
+          >
+            <span aria-hidden="true">«</span>
+          </a>
+        </li>
+        <li
+          *ngFor="let page of p.pages"
+          [className]="
+            p.getCurrent() === page.value
+              ? 'page-item disabled'
+              : 'page-item'
+          "
+        >
+          <a
+            class="page-link"
+            href="javascript:void(0);"
+            (click)="p.setCurrent(page.value)"
+            *ngIf="p.getCurrent() !== page.value"
+          >
+            {{ page.label }}
+          </a>
+          <a class="page-link" href="" *ngIf="p.getCurrent() === page.value">
+            {{ page.label }}
+          </a>
+        </li>
+        <li
+          [className]="
+            p.isLastPage() ? 'page-item disabled' : 'page-item disabled'
+          "
+        >
+          <a
+            class="page-link"
+            href="javascript:void(0);"
+            (click)="p.next()"
+            aria-label="Next"
+          >
+            <span aria-hidden="true">»</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </pagination-template>
+</div>
+

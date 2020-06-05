@@ -1,0 +1,44 @@
+<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#addMenu"><i class="fas fa-plus"></i> Agregar</button>
+
+<!-- trigger modal addmenu -->
+<div class="modal fade" id="addMenu" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header bg-primary">
+          <h5 class="modal-title text-center text-white" id="exampleModalLabel">Agregar al menu</h5>
+          <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #menuForm="ngForm" (submit)="addMenu()" class="needs-validation">
+            <div class="form-group">
+              <label for="menTitulo">Titulo</label>
+              <input type="text" class="form-control" #menTitulo="ngModel" id="menTitulo" name="menTitulo" [(ngModel)]="datamenu.menTitulo" placeholder="" required/>
+              <div class="invalid-feedback">
+              Por favor, ingrese un Titulo
+              </div> 
+            </div>
+            <div class="form-group w-50 p-3">
+                <label for="Imagen">Imagen</label>
+                <select id="opcionImg" class="form-control fa" name="Imagen" [(ngModel)]="datamenu.Imagen"> 
+
+                </select>                     
+              </div>
+              <div class="form-group">
+                <label for="menIsHot">Hot</label>
+                <select class="form-control" name="menIsHot" [(ngModel)]="datamenu.menIsHot">
+                  <option [value]="false">false</option>
+                  <option [value]="true">true</option>
+                </select>
+              </div>
+              <div class="my-2 d-flex justify-content-end">
+                <button id="btnaddm" type="submit" class="btn btn-success" [disabled]="!menuForm.form.valid" >Agregar</button>  
+              </div>
+          </form>       
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+

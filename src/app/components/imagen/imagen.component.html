@@ -1,0 +1,77 @@
+<h1 class="mt-4 text-center">GESTOR DE IMAGENES</h1>
+<hr>
+<form #imgHotForm="ngForm" class="needs-validation">
+       <div class="form-group w-25">
+         <label for="menTitulo">Titulo</label>
+         <input type="text" class="form-control" name="ImaTitulo" [(ngModel)]="dataImgHot.ImaTitulo" placeholder="" disabled/>
+      </div>
+      <div class="form-group w-25">
+        <label for="origen">Origen de imagen</label>
+        <select class="form-control" name="origen" [(ngModel)]="origen">
+          <option value="url">Url</option>
+          <option value="local">Local</option>
+        </select>
+      </div>
+      <div [ngSwitch]="origen">
+        <div class="form-group w-50 animate__animated animate__fadeInDown" *ngSwitchCase="'url'">
+          <label for="url">Url</label>
+          <input type="text" class="form-control"  id="ImaPath" name="ImaPath" [(ngModel)]="dataImgHot.ImaPath" required/>             
+         </div>
+         <div class="form-group w-50  animate__animated animate__fadeInDown" *ngSwitchCase="'local'">
+          <label for="local">Local</label>
+          <input type="file" class="form-control-file"  required/>          
+         </div>
+         <div class="form-group w-50" *ngSwitchDefault>
+          <label for="Imagen">...</label>
+          <input type="text" class="form-control"  id="..." name="..." disabled/>             
+         </div>
+        <div class="my-2 d-flex justify-content-end w-50" *ngSwitchCase="'url'">
+          <button  class="btn btn-primary mr-2" onclick="history.back()">Volver</button>
+          <button type="submit" class="btn btn-success " (click)="addImg()" [disabled]="!imgHotForm.form.valid">Guardar</button>  
+        </div>
+        <div class="my-2 d-flex justify-content-end w-50" *ngSwitchCase="'local'">
+          <button  class="btn btn-primary mr-2" onclick="history.back()">Volver</button>
+          <button type="submit" class="btn btn-success " (click)="addImg()" [disabled]="!imgHotForm.form.valid">Guardar</button>  
+        </div>
+      </div>
+      <hr>
+      <h3 class="mt-4 text-center my-5"><i class="fas fa-image"></i>  GALERIA DE IMAGENES</h3>
+      <hr>
+      <div class="container">
+        <div class="d-flex justify-content-center text-primary" *ngIf="cargar; else elseBlock">
+          No Hay  imagenes
+        </div>
+       <ng-template #elseBlock>      
+        <div class="row">
+          <div class="col-lg-3 col-md-4 col-xs-6 thumb" *ngFor="let img of imagenes">
+              <a class="thumbnail" href="#" data-image-id="" data-toggle="modal" data-title=""
+                 data-image="img.ImaPath"
+                 data-target="#image-gallery">
+                  <img class="img-thumbnail"
+                       src="img.ImaPath"
+                       alt="img.ImaPath">
+              </a>
+              <span>{{img.ImaPath}}</span>
+          </div>
+          <div class="modal fade" id="image-gallery" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <h4 class="modal-title" id="image-gallery-title"></h4>
+                          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                          </button>
+                      </div>
+                      <div class="modal-body">
+                          <img id="image-gallery-image" class="img-responsive col-md-12" src="">
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary float-left" id="show-previous-image"><i class="fa fa-arrow-left"></i>
+                          </button>
+                          <button type="button" id="show-next-image" class="btn btn-secondary float-right"><i class="fa fa-arrow-right"></i>
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+       </ng-template>    
